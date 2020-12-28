@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+    <title>Home</title>
+</head>
+<body style="background-color: #202020;">
+    <nav class="navbar navbar-expand-sm bg-success navbar-light">       
+        <!-- Brand/logo -->
+        <a class="navbar-brand" href="#"> 
+            <img src="https://seeklogo.com/images/R/rancho-cucamonga-quakes-logo-AF8ECC75F4-seeklogo.com.png" alt="logo" style="width:40px; height: 40px;"> 
+        </a>   
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#collapse_Navbar"> 
+            <span class="navbar-toggler-icon"></span> 
+        </button> 
+          
+        <div class="collapse navbar-collapse" id="collapse_Navbar"> 
+            <ul class="navbar-nav"> 
+                <li class="nav-item active"> 
+                    <a class="nav-link" href="/">Home</a> 
+                </li> 
+              
+                <li class="nav-item"> 
+                    <a class="nav-link" href="./pages/form.html">Form</a> 
+                </li> 
+            </ul> 
+        </div> 
+    </nav> 
+    <div id="welcome-section" style=" color:white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 2rem; padding-bottom: 2rem;">
+      <h1>Welcome!</h1>
+      <h4 style="font-weight: 100;">This is the data that is currently in my Mongo Database</h4>
+    </div>
+
+    <div id="quakeTableContainer" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <div style="padding-bottom: 2rem;">
+        <input type="button" onclick="getQuakes()" value="Load Data" class="btn btn-success">
+      </div>
+        <table class="table table-sm table-dark" style="max-width: 80%;">
+            <thead>
+              <tr> 
+                <th scope="col">Location</th>
+                <th scope="col">Place</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+                <th scope="col">Depth</th>
+                <th scope="col">Magnitude</th>
+                <th scope="col">Magnitude Type</th>
+                <th scope="col">Gap</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+
+            </tbody>
+          </table>
+    </div>
+  <script>
+        function getQuakes(event){
+          fetch('http://localhost:3001/api/octoberquakes')
+          .then((response) => response.json())
+          .then((data) => {
+              let output = '<p style= "align-items: center;">Data from mongodb</p>';
+              console.log(data);
+              data.forEach(function(quake){
+                  output += `
+                  <tr>
+                  <td>${quake.locationSource}</td>
+                  <td>${quake.place}</td>
+                  <td>${quake.latitude}</td>
+                  <td>${quake.longitude}</td>
+                  <td>${quake.depth}</td>
+                  <td>${quake.mag}</td>
+                  <td>${quake.magType}</td>
+                  <td>${quake.gap}</td>
+                  <td></td>
+                </tr> 
+                  `
+              })
+              document.getElementById('tableBody').innerHTML = output
+          })
+        }
+  </script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://unpkg.com/react@15/dist/react.js"></script>
+  <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>    
+</body>
+<footer class="page-footer font-small blue bg-white">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3 text-light" style="background-color: #202020;">© 2020 Copyright:
+    <a href="https://rrios4.github.io/Portfolio/"> Rogelio Rios</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+</html>

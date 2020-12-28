@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Quake Form</title>
+</head>
+<body style="background-color: #202020; color: white;">
+    <nav class="navbar navbar-expand-sm bg-success navbar-light">       
+        <!-- Brand/logo -->
+        <a class="navbar-brand" href="#"> 
+            <img src="https://seeklogo.com/images/R/rancho-cucamonga-quakes-logo-AF8ECC75F4-seeklogo.com.png" alt="logo" style="width:40px; height: 40px;"> 
+        </a>   
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#collapse_Navbar"> 
+            <span class="navbar-toggler-icon"></span> 
+        </button> 
+          
+        <div class="collapse navbar-collapse" id="collapse_Navbar"> 
+            <ul class="navbar-nav"> 
+                <li class="nav-item active"> 
+                    <a class="nav-link" href="/">Home</a> 
+                </li> 
+              
+                <li class="nav-item"> 
+                    <a class="nav-link" href="./form.html">Form</a> 
+                </li> 
+            </ul> 
+        </div> 
+    </nav>
+    <div id="form-content" style="display: flex; flex-direction: column; ">
+        <div id="tile-section" style="display: flex; flex-direction: column; padding-top: 2rem; padding-bottom: 3rem;">
+            <h1 style="align-self: center; font-size: 48px;">Quake Form</h1>
+            <h5 style="font-weight: 100; align-self: center; padding-top: 1;">Fill out this form and go back home to see submitted data</h5>
+        </div>
+        <div id="quake-div" style="display: flex; justify-content: center; padding-bottom: 2rem;">
+            <form id="quake_form" style="display: flex; flex-direction: column; align-items: center;">
+                <label>Country:</label>
+                <input type="text" id="location" class="form-control">
+                <label>Place: </label>
+                <input type="text" id="place" class="form-control">
+                <label>Latitute:</label>
+                <input type="text" id="lat" class="form-control">
+                <label>Longtitude:</label>
+                <input type="text" id="long" class="form-control">
+                <label>Depth:</label>
+                <input type="text" id="depth" class="form-control">
+                <label>Magnitude:</label>
+                <input type="text" id="mag" class="form-control">
+                <label>Magnitude Type:</label>
+                <input type="text" id="magType" class="form-control">
+                <label>NST:</label>
+                <input type="text" id="nst" class="form-control">
+                <label>Gap: </label>
+                <input type="text" id="gap" class="form-control">
+                <label>Nation: </label>
+                <input type="text" id="net" class="form-control"><br>
+                <input type="submit" value="Submit" class="btn btn-success">
+                
+            </form>
+        </div>
+    </div>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/react@15/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+
+    <script>
+        document.getElementById('quake_form').addEventListener('submit', addQuake);
+        document.getElementById("quake_form"),addEventListener('submit', notification)
+        function addQuake(e){
+            e.preventDefault();
+            let location = document.getElementById('location').value;
+            let place = document.getElementById('place').value;
+            let latitude = document.getElementById('lat').value;
+            let longitude = document.getElementById('long').value;
+            let depth = document.getElementById('depth').value;
+            let mag = document.getElementById('mag').value;
+            let magType = document.getElementById('magType').value;
+            let nst = document.getElementById('nst').value;
+            let gap = document.getElementById('gap').value;
+            let net = document.getElementById('net').value;
+
+            fetch('http://localhost:3001/api/octoberquakes', {
+                method: 'POST',
+                headers: {
+                   'Accept' : 'application/json, text/plain, */*',
+                   'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    longitude:longitude,
+                    latitude:latitude,
+                    locationSource: location,
+                    place:place,
+                    depth:depth,
+                    mag:mag,
+                    magType:magType,
+                    nst:nst,
+                    gap:gap,
+                    net:net
+                    })
+                })
+                .then((res) => res.json())
+                .then((data) => console.log(data))
+            }
+
+            function notification(){
+                alert("You have submitted to the database! Thank you!");
+            }
+
+    </script>
+    <!--<script type="text/babel">
+  
+        var Quakes = React.createClass({
+          render: function(){
+            return(
+                <div id="quake-form" style="display: flex; justify-content: center; padding-bottom: 2rem;">
+                    <form style="display: flex; flex-direction: column; align-items: center;">
+                        <label>Country:</label>
+                        <input type="text" id="location" class="form-control">
+                        <label>Place: </label>
+                        <input type="text" id="place" class="form-control">
+                        <label>Latitute:</label>
+                        <input type="text" id="lat" class="form-control">
+                        <label>Longtitude:</label>
+                        <input type="text" id="long" class="form-control">
+                        <label>Depth:</label>
+                        <input type="text" id="depth" class="form-control">
+                        <label>Magnitude:</label>
+                        <input type="text" id="mag" class="form-control">
+                        <label>Magnitude Type:</label>
+                        <input type="text" id="magType" class="form-control">
+                        <label>NST:</label>
+                        <input type="text" id="nst" class="form-control">
+                        <label>Gap: </label>
+                        <input type="text" id="gap" class="form-control">
+                        <label>Nation: </label>
+                        <input type="text" id="net" class="form-control"><br>
+                        <input type="button" value="Submit" class="btn btn-success">
+                    
+                    </form>
+                </div>
+            );
+          }
+        });  
+      
+      </script> -->
+</body>
+<footer class="page-footer font-small blue bg-white">
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3 text-light" style="background-color: #202020;">© 2020 Copyright:
+      <a href="https://rrios4.github.io/Portfolio/"> Rogelio Rios</a>
+    </div>
+    <!-- Copyright -->
+  </footer> 
+</html>

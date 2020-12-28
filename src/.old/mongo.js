@@ -7,7 +7,7 @@ if(process.argv.length < 3) {
 
 const password = process.argv[2];
 
-const url = `mongodb+srv://rxr348:${password}@web-development-learnin.d2bql.mongodb.net/quake_db?retryWrites=true&w=majority`;
+const url = ``;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
